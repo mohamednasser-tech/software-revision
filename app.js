@@ -6,13 +6,15 @@ const PAPERS={
  bank:{t:"Question Bank",sub:"All 36 questions from the bank, each with an explanation.",items:Q.map((x,k)=>({q:x[0],o:x[1],a:x[2],e:E[k]}))},
  m1:{t:"Midterm model 1",sub:"Part A: 13 multiple-choice questions · Part B: 5 essay questions, all from lectures 1–6.",items:M1.map(x=>({q:x[0],o:x[1],a:x[2],e:x[3]}))}
 };
+const mk=x=>({q:x[0],o:x[1],a:x[2],e:x[3]});
+PAPERS.all={t:"100 MCQ Challenge",sub:"100 multiple-choice questions: the full bank, Midterm model 1, plus 51 new questions from lectures 1–6.",items:[...PAPERS.bank.items,...PAPERS.m1.items,...M2.map(mk)]};
 const MIDESSAY=[7,9,15,16,23];
 const essayPart=()=>`<h2 class="part">Part B – Essay questions</h2>`+MIDESSAY.map((k,n)=>`<section class="card"><div class="meta"><span>E${n+1}</span><span>3 marks</span></div><h3>${ESSAY[k]}</h3><textarea class="wr" data-w="${k}" placeholder="Write your answer here…">${(S.w&&S.w[k])||""}</textarea><details><summary>Show model answer</summary><div class="ans">${ANS[k]}</div></details></section>`).join("");
 const VIEWS=[["over","Overview","Workspace"],["bank","Question Bank","Practice papers"],["m1","Midterm model 1"],["essay","Essay checklist"]];
 const NAV=[
  ["Workspace",[["over","Overview"]]],
  ["Lectures",LEC.map((l,i)=>["lec"+i,l.t,String(i+1).padStart(2,"0")])],
- ["Practice papers",[["bank","Question Bank"],["m1","Midterm model 1"],["essay","Essay checklist"]]]
+ ["Practice papers",[["all","100 MCQ Challenge"],["bank","Question Bank"],["m1","Midterm model 1"],["essay","Essay checklist"]]]
 ];
 $("#nav").innerHTML=NAV.map(([h,l])=>`<div class="sec">${h}</div>`+l.map(([id,t,n])=>`<a href="#${id}" data-id="${id}">${n?`<em>${n}</em>`:""}${t}</a>`).join("")).join("");
 const name=id=>id==="over"?"Overview":id==="essay"?"Essay checklist":PAPERS[id]?PAPERS[id].t:"Lecture "+(+id.slice(3)+1);
